@@ -12,7 +12,7 @@ def main():
     filename = "work_ss"
     os.makedirs(work_dir,exist_ok=True)
     csvname = fr"{work_dir}\active_window_metric.csv"
-    count = 1
+    count = 0
     if os.path.exists(csvname)==True:
         with open(csvname,"r",encoding='shift_jis') as f:
             tmp_txt = f.read().split("\n")

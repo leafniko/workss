@@ -129,9 +129,9 @@ dmypy.json
 .pyre/
 
 
-main.build/
-main.dist/
-main.onefile-build/
+*.build/
+*.dist/
+*.onefile-build/
 *.exe
 **/*.png
 **/*.csv
