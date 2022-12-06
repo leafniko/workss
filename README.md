@@ -12,3 +12,14 @@ After runnning the exe, this exe makes temporary directory and take screenshots 
 Made in 3 minutes.
 I may improve it if there is demand.
 
+# Update
+
+- 2022/12/05 
+Function addition
+Recode your activated window name to csv file.
+you can look back your valuable time.
+
+The batch file for exclusion registration is not working properly, so we are investigating the cause.
+
+
+
