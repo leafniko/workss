@@ -32,7 +32,7 @@ class HandleRaw(raw.RecodeToDB):
         date = self.cnf.date_ymdhms()
         output_csv_name = fr"{self.cnf.work_dir()}\active_{date}.csv"
         column = ["id","major_item","minor_item","time"]
-        with open(output_csv_name,mode="w",encoding="shift_jis") as f:
+        with open(output_csv_name,mode="w",encoding="shift_jis",errors="ignore") as f:
             f.write(",".join(column))
             f.write("\n")
             for line in all_data:

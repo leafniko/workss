@@ -18,7 +18,6 @@ class WorkSS:
             if self.status == "stop":
                 break
             tmp_key = win32gui.GetWindowText(win32gui.GetForegroundWindow())
-            tmp_key = tmp_key.replace("\u200e","")
             screenshotinterval = self.dbh.cnf.screenshotinterval
             if (count%screenshotinterval==0):
                 self.fc.get_screenshot(self.dbh.cnf.work_dir(),filename)
