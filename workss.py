@@ -18,6 +18,7 @@ class WorkSS:
             if self.status == "stop":
                 break
             tmp_key = win32gui.GetWindowText(win32gui.GetForegroundWindow())
+            tmp_key = tmp_key.replace("\u200e","")
             screenshotinterval = self.dbh.cnf.screenshotinterval
             if (count%screenshotinterval==0):
                 self.fc.get_screenshot(self.dbh.cnf.work_dir(),filename)
@@ -32,7 +33,10 @@ class WorkSS:
         moniter_thread = threading.Thread(target=self.chk_active_window)
         moniter_thread.start()
         while True:
-            command = input("1: output the data 2:watch current data 0:stop this process")
+            print("1: output the data")
+            print("2:watch current data")
+            print("3: drop one data by id")
+            command = input("0:stop this process")
             if command == "0":
                 self.status = "stop"
                 break
@@ -43,6 +47,12 @@ class WorkSS:
                 result = self.dbh.show_table_data(mode=2)
                 for _ in result:
                     print(_)
+            elif command == "3":
+                id = input("please input the id:")
+                try:
+                    self.dbh.delete_by_id(id)
+                except:
+                    print("failed to delete the data")
 
 if __name__ == "__main__":
     instance = WorkSS()

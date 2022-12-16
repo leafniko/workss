@@ -75,6 +75,10 @@ class RecodeToDB:
     def drop_db(self) -> None:
         drop_sql = "DROP TABLE awrecorde"
         self.execute_sqlline(drop_sql)
+        
+    def delete_by_id(self,id) -> None:
+        drop_sql = f"DELETE FROM awrecorde WHERE id={id}"
+        self.execute_sqlline(drop_sql)
     
     def update_db(self,MajorItem,MinorItem,time):
         time=str(time)

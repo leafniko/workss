@@ -1,0 +1,1 @@
+nuitka --mingw64 --follow-imports --standalone workss.py
