@@ -1,41 +1,49 @@
-
-import os
-from src import func
-import pyautogui
-from datetime import datetime as dt
+from recorde_active_window import handle_raw
 import win32gui
+import pyautogui
+import threading
+from src import func
 
-def main():
-    data = {}
-    todate = dt.now().strftime('%Y%m%d')
-    work_dir = fr"{os.getcwd()}\{todate}"
-    filename = "work_ss"
-    os.makedirs(work_dir,exist_ok=True)
-    csvname = fr"{work_dir}\active_window_metric.csv"
-    count = 0
-    if os.path.exists(csvname)==True:
-        with open(csvname,"r",encoding='shift_jis') as f:
-            tmp_txt = f.read().split("\n")
-        for tt in tmp_txt:
-            tmp_line = tt.split(",")
-            data[tmp_line[0]] = tmp_line[1]
-    while True:
-        tmp_key = win32gui.GetWindowText(win32gui.GetForegroundWindow())
-        try:
-            data[tmp_key] = str(1 + int(data[tmp_key]))
-        except:
-            data[tmp_key] = str(1)
-        pyautogui.sleep(1)
-        count += 1
-        if (count%10==0):
-            try:
-                with open(csvname,'w',encoding='shift_jis') as f:
-                    for k, v in data.items():
-                        f.write(f'"{k}","{v}"\n')            
-            except:
-                pass
-        if (count%900==0):
-            func.get_screenshot(work_dir,filename)
+class WorkSS:
+    dbh = handle_raw.HandleRaw()
+    fc = func.Func()
+    def __init__(self) -> None:
+        self.dbh.create_table()
+        self.status = "start"
+    
+    def chk_active_window(self):
+        filename = "work_ss"
+        count = 0
+        while True:
+            if self.status == "stop":
+                break
+            tmp_key = win32gui.GetWindowText(win32gui.GetForegroundWindow())
+            screenshotinterval = self.dbh.cnf.screenshotinterval
+            if (count%screenshotinterval==0):
+                self.fc.get_screenshot(self.dbh.cnf.work_dir(),filename)
+            pyautogui.sleep(1)
+            count += 1
+            awitem = tmp_key.split(" - ")
+            MajorItem = awitem[-1]
+            MinorItem = tmp_key
+            self.dbh.update_data(MajorItem,MinorItem,1)
+            
+    def main(self):
+        moniter_thread = threading.Thread(target=self.chk_active_window)
+        moniter_thread.start()
+        while True:
+            command = input("1: output the data 2:watch current data 0:stop this process")
+            if command == "0":
+                self.status = "stop"
+                break
+            
+            if command == "1":
+                self.dbh.output_db()
+            elif command == "2":
+                result = self.dbh.show_table_data(mode=2)
+                for _ in result:
+                    print(_)
 
 if __name__ == "__main__":
-    main()
+    instance = WorkSS()
+    instance.main()

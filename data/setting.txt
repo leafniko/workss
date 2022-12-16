@@ -1,0 +1,4 @@
+# 作業フォルダを指定できます(無指定時は実行場所)
+work_dir:
+# スクリーンショット取得の間隔時間(second)
+screenshotinterval:900

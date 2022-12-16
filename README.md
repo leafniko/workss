@@ -14,12 +14,19 @@ I may improve it if there is demand.
 
 # Update
 
-- 2022/12/05 
+- v1.02 2022/12/15
+Function Repair
+v1.01 update was so wrong and the added function had been useless.
+So I repaired the function, I changed to this App manage the data by sqlight.
+
+
+- v1.01 2022/12/05 
 Function addition
 Recode your activated window name to csv file.
 you can look back your valuable time.
 
 The batch file for exclusion registration is not working properly, so we are investigating the cause.
+
 
 
 
